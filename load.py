@@ -68,7 +68,8 @@ def psnE(psn):
     logging.error(f'Message: {psn}')
 
 def psnS(psn):
-    return f"{Fore.YELLOW}[SUCCESS] {Fore.RESET}TX hash: {Fore.BLUE}{psn}{Fore.RESET}"
+    tx_link = f"https://taikoscan.io/tx/{psn}"  # Update this URL based on the blockchain explorer you are using
+    return f"{Fore.YELLOW}[SUCCESS] {Fore.RESET}TX hash: {Fore.BLUE}{psn}{Fore.RESET} | Link: {Fore.CYAN}{tx_link}{Fore.RESET}"
 
 def mode(value):
     return ['Send Message.', 'Init.', 'Process Message.', 'Random.'][value-1]
@@ -187,9 +188,11 @@ def main():
     mode_choice = int(prompt("Masukkan Mode (1-4): ", validator=NumberValidator()))
     num_txs = int(input("Masukkan jumlah transaksi: "))
     min_delay, max_delay = map(int, input("Masukkan rentang delay per transaksi (contoh: 20-60): ").split('-'))
+    gwei_input = float(input("Masukkan nilai gwei untuk transaksi (contoh: 0.1): "))  # Added input for Gwei
     print(f'{Fore.MAGENTA}[INFO]{Fore.RESET} Push Point Taiko Blazer Mode: {Fore.LIGHTBLUE_EX}{mode(mode_choice)}{Fore.RESET} | {Fore.BLUE}{num_txs}{Fore.RESET} tx')
     print(f'{Fore.RESET}-' * 60)
     hari = 0
+    tx_counter = 0  # Initialize transaction counter
     while True:
         sekarang = datetime.datetime.now()
         tanggal = sekarang.strftime("%d-%m-%Y")
@@ -200,7 +203,11 @@ def main():
             randomDelay = round(random.uniform(min_delay, max_delay))
             mode_c = random.choice([1, 2, 3]) if mode_choice == 4 else mode_choice
             if i == 0: print(f'{msgtypeTX(mode_c, i+1)}')
-            prosesTX(taiko_url, account_address, private_key, 0.09, mode_c)
+            prosesTX(taiko_url, account_address, private_key, gwei_input, mode_c)  # Pass gwei_input to prosesTX
+            tx_counter += 1  # Increment transaction counter
+            if tx_counter == 10:  # Check if 10 transactions have been processed
+                if notif: asyncio.run(send_message(token, chat_id, f'[INFO] 10 transactions have been processed.'))
+                tx_counter = 0  # Reset counter
             if i == num_txs - 1:
                 l = True
                 sleep(0.1)
