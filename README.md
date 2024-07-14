@@ -23,6 +23,10 @@
     ```sh
     pip3 install -r requirements.txt
     ```
+6. Menjalankan Script / Bot:
+    ```sh
+    python3 bot.py
+    ```
 
 ### Windows
 1. Pastikan Python 3.x sudah terinstall. Anda bisa mengeceknya dengan perintah:
@@ -44,6 +48,10 @@
 5. Install dependencies:
     ```sh
     pip install -r requirements.txt
+    ```
+6. Menjalankan Script / Bot:
+    ```sh
+    python bot.py
     ```
 
 ## NOTE : Original Souce ( https://github.com/MDP-KCA/Taiko-Blazer )
