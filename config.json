@@ -1,0 +1,7 @@
+{
+    "taiko_url":    "https://rpc.taiko.xyz",
+    "chat_id":  "chat id tele",
+    "auth_token":    "token bot",
+    "bot_notification": false, 
+    "address":  "bisa di edit via prompt, bisa juga di isi langsung" 
+}
