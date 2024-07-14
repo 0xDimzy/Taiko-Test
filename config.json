@@ -1,11 +1,7 @@
 {
-    "taiko_url": "your_taiko_url", // Example : https://rpc.taiko.xyz
-    "address": "your_address", // Example : 0x1239283
-    "private_key": "your_private_key", // Submit Private Key Metamask
-    "delay": [20, 60],  // Example delay range
-    "num_txs": 10,  // Example number of transactions
-    "gwei": 0.1,  // Example gwei value
-    "chat_id": "your_chat_id", // 
+    "taiko_url": "your_taiko_url", 
+    "address": "your_address", 
+    "chat_id": "your_chat_id", 
     "auth_token": "your_auth_token",
-    "bot_notification": true // if false, notification will not be sent
+    "bot_notification": true
 }
