@@ -189,7 +189,7 @@ def main():
     num_txs = int(input("Masukkan jumlah transaksi: "))
     min_delay, max_delay = map(int, input("Masukkan rentang delay per transaksi (contoh: 20-60): ").split('-'))
     gwei_input = float(input("Masukkan nilai gwei untuk transaksi (contoh: 0.1): "))  # Added input for Gwei
-    print(f'{Fore.MAGENTA}[INFO]{Fore.RESET} Push Point Taiko Blazer Mode: {Fore.LIGHTBLUE_EX}{mode(mode_choice)}{Fore.RESET} | {Fore.BLUE}{num_txs}{Fore.RESET} tx')
+    print(f'{Fore.MAGENTA}[INFO Transaksi]{Fore.RESET} Push Point Taiko Blazer Mode: {Fore.LIGHTBLUE_EX}{mode(mode_choice)}{Fore.RESET} | {Fore.BLUE}{num_txs}{Fore.RESET} tx')
     print(f'{Fore.RESET}-' * 60)
     hari = 0
     tx_counter = 0  # Initialize transaction counter
@@ -200,14 +200,19 @@ def main():
         saldoawal = balance(taiko_url, account_address)
         if notif: asyncio.run(send_message(token, chat_id, f'Info: {hari+1}\nAddress: {account_address}\nSaldo anda: {saldoawal} ETH\nTanggal: {tanggal}\nJam: {jam}'))
         for i in range(num_txs):
+            if tx_counter >= 150:  # Check if the transaction limit for the day is reached
+                print(f"{Fore.YELLOW}[INFO]{Fore.RESET} Batas transaksi harian sebanyak 150 telah tercapai.")
+                break
             randomDelay = round(random.uniform(min_delay, max_delay))
             mode_c = random.choice([1, 2, 3]) if mode_choice == 4 else mode_choice
             if i == 0: print(f'{msgtypeTX(mode_c, i+1)}')
             prosesTX(taiko_url, account_address, private_key, gwei_input, mode_c)  # Pass gwei_input to prosesTX
             tx_counter += 1  # Increment transaction counter
-            if tx_counter == 10:  # Check if 10 transactions have been processed
-                if notif: asyncio.run(send_message(token, chat_id, f'[INFO] 10 transactions have been processed.'))
-                tx_counter = 0  # Reset counter
+            if tx_counter % 10 == 0:  # Check if 10 transactions have been processed
+                saldoakhir = balance(taiko_url, account_address)
+                pemakaian = float(saldoawal) - float(saldoakhir)
+                formatted_pemakaian = "{:.6f}".format(pemakaian)  # Format pemakaian to 6 decimal places
+                if notif: asyncio.run(send_message(token, chat_id, f'[INFO] {tx_counter} transactions have been processed.\nSaldo Awal: {saldoawal} ETH\nSaldo Akhir: {saldoakhir} ETH\nSaldo Digunakan: {formatted_pemakaian} ETH'))
             if i == num_txs - 1:
                 l = True
                 sleep(0.1)
@@ -216,13 +221,18 @@ def main():
             else:
                 with Loader(f"Mohon tunggu {randomDelay} detik..", f"{Fore.YELLOW}[INFO] {Fore.RESET}Waktu tunggu {randomDelay} detik sudah tercapai. \n{Fore.RESET}{'-' * 73}\n{msgtypeTX(mode_c, i+2)}"):
                     sleep(randomDelay)
-        if l:
+        if l or tx_counter >= 150:  # Check if the transaction limit for the day is reached
             saldoakhir = balance(taiko_url, account_address)
-            pemakaian = float(saldoawal)-float(saldoakhir)
-            print(f'Proses akan dilakukan besok hari secara otomatis, terima kasih..\n{Fore.YELLOW}[INFO]{Fore.RESET}Sisa Saldo: {saldoakhir} ETH\nUntuk menghentikan proses tekan CTRL+C')
-            if notif: asyncio.run(send_message(token, chat_id, f'[INFO] Proses TX sebanyak {num_txs} kali sudah selesai.\nSaldo Awal: {saldoawal} ETH\nSaldo akhir: {saldoakhir} ETH\nSaldo digunakan: {pemakaian} ETH\nAkan dilanjutkan kembali besok hari secara otomatis, terima kasih..'))
+            pemakaian = float(saldoawal) - float(saldoakhir)
+            formatted_pemakaian = "{:.6f}".format(pemakaian)  # Format pemakaian to 6 decimal places
+            sekarang = datetime.datetime.now()  # Get current date and time
+            tanggal = sekarang.strftime("%d-%m-%Y")
+            jam = sekarang.strftime("%H:%M:%S")
+            print(f'Proses Akan Dilakukan Besok Hari Secara Otomatis, Terima Kasih..\n{Fore.YELLOW}[INFO Transaksi]{Fore.RESET}Sisa Saldo: {saldoakhir} ETH\nUntuk menghentikan proses tekan CTRL+C')
+            if notif: asyncio.run(send_message(token, chat_id, f'[INFO Transaksi ] Proses TX sebanyak {num_txs} kali sudah selesai.\nSaldo Awal: {saldoawal} ETH\nSaldo akhir: {saldoakhir} ETH\nSaldo digunakan: {formatted_pemakaian} ETH\nTanggal: {tanggal}\nJam: {jam}\nAkan Dilanjutkan Kembali Besok Hari Secara Otomatis, Terima Kasih..'))
             l = False
             print(f'-' * 73)
+            tx_counter = 0  # Reset transaction counter for the next day
         sleep(24*60*60)
         hari += 1
 
