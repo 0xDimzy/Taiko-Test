@@ -17,7 +17,7 @@
     ```
 4. Masuk ke direktori proyek:
     ```sh
-    cd taiko-bot
+    cd Taiko-Test
     ```
 5. Install dependencies:
     ```sh
@@ -43,7 +43,7 @@
     ```
 4. Masuk ke direktori proyek:
     ```sh
-    cd taiko-bot
+    cd Taiko-Test
     ```
 5. Install dependencies:
     ```sh
