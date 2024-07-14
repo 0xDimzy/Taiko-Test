@@ -201,13 +201,8 @@ def main():
         if notif: asyncio.run(send_message(token, chat_id, f'Info: {hari+1}\nAddress: {account_address}\nSaldo anda: {saldoawal} ETH\nTanggal: {tanggal}\nJam: {jam}'))
         for i in range(num_txs):
             if tx_counter >= 150:  # Check if the transaction limit for the day is reached
-                print(f"{Fore.RED}[WARNING]{Fore.RESET} Batas transaksi harian sebanyak 150 telah tercapai. Bot akan berhenti otomatis.")
-                if notif: asyncio.run(send_message(token, chat_id, f'{Fore.RED}[WARNING]{Fore.RESET} Batas transaksi harian sebanyak 150 telah tercapai. Bot akan berhenti otomatis.'))
-                lanjut = input("Apakah Anda ingin melanjutkan? (y/n): ").strip().lower()
-                if lanjut != 'y':
-                    return  # Stop the bot
-                else:
-                    tx_counter = 0  # Reset transaction counter if user chooses to continue
+                print(f"{Fore.YELLOW}[INFO]{Fore.RESET} Batas transaksi harian sebanyak 150 telah tercapai.")
+                break
             randomDelay = round(random.uniform(min_delay, max_delay))
             mode_c = random.choice([1, 2, 3]) if mode_choice == 4 else mode_choice
             if i == 0: print(f'{msgtypeTX(mode_c, i+1)}')
