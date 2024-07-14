@@ -13,7 +13,7 @@
     ```
 3. Clone repository Taiko Bot:
     ```sh
-    git clone https://github.com/username/taiko-bot.git
+    git clone https://github.com/Diimzyyy/Taiko-Test.git
     ```
 4. Masuk ke direktori proyek:
     ```sh
@@ -39,7 +39,7 @@
     ```
 3. Clone repository Taiko Bot:
     ```sh
-    git clone https://github.com/username/taiko-bot.git
+    git clone https://github.com/Diimzyyy/Taiko-Test.git
     ```
 4. Masuk ke direktori proyek:
     ```sh
