@@ -82,7 +82,10 @@ def msgtypeTX(value, tx):
 def load_config(filename):
     try:
         with open(filename, 'r') as file:
-            return json.load(file)
+            config = json.load(file)
+            if 'address' in config:
+                config['address'] = Web3.to_checksum_address(config['address'])
+            return config
     except FileNotFoundError:
         logging.error(f"Configuration file {filename} not found.")
         sys.exit(1)
@@ -170,7 +173,8 @@ def main():
     if awal == '1' or not account_address:
         print("-" * 60)
         print(" " * 60)
-        config['address'] = input("Edit alamat wallet: " if awal == '1' else "Masukkan alamat wallet: ")
+        address_input = input("Edit alamat wallet: " if awal == '1' else "Masukkan alamat wallet: ")
+        config['address'] = Web3.to_checksum_address(address_input)
         write_config('config.json', config)
         account_address = config['address']
         clear(config['address'], 0.1)
