@@ -53,5 +53,5 @@
     ```sh
     python bot.py
     ```
-## I just want to record, not for personal use, and I want to learn for the future
+## I just want to recode, not for personal use, and I want to learn for the future
 ## NOTE : Original Souce ( https://github.com/MDP-KCA/Taiko-Blazer )
