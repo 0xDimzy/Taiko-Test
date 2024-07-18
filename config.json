@@ -1,7 +1,6 @@
 {
     "taiko_url": "your_taiko_url", 
-    "address": "your_address", 
     "chat_id": "your_chat_id", 
     "auth_token": "your_auth_token",
-    "bot_notification": true
+    "bot_notification": false
 }
