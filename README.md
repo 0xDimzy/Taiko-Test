@@ -1,6 +1,6 @@
 ## Installation Instructions TAIKO BOT
 
-## Untuk Setingan Cek di config.json
+## For Setting RPC & Telegram Token Check on Config.json
 
 ### Linux
 1. Pastikan Python 3.x sudah terinstall. Anda bisa mengeceknya dengan perintah:
@@ -53,5 +53,5 @@
     ```sh
     python bot.py
     ```
-
+## I just want to record, not for personal use, and I want to learn for the future
 ## NOTE : Original Souce ( https://github.com/MDP-KCA/Taiko-Blazer )
